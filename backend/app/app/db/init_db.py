@@ -12,6 +12,33 @@ logger = logging.getLogger(__name__)
 # for more details: https://github.com/tiangolo/full-stack-fastapi-postgresql/issues/28
 
 
+brands = [
+    {
+        "name": 'Toyota',
+        "logo_url": "https://picsum.photos/200",
+        "desciption": "Lorem ipsum dolor sit amet.",
+        "status": 1
+    },
+    {
+        "name": 'BMW',
+        "logo_url": "https://picsum.photos/200",
+        "desciption": "Fusce vestibulum ac mauris a.",
+        "status": 1
+    },
+    {
+        "name": 'Mazda',
+        "logo_url": "https://picsum.photos/200",
+        "desciption": "Phasellus vitae sem quam. Donec.",
+        "status": 1
+    },
+    {
+        "name": 'Honda',
+        "logo_url": "https://picsum.photos/200",
+        "desciption": "Mauris non aliquet purus, bibendum.",
+        "status": 1
+    }
+]
+
 def init_db(db: Session) -> None:
     # Tables should be created with Alembic migrations
     # But if you don't want to use migrations, create
@@ -39,3 +66,9 @@ def init_db(db: Session) -> None:
             "provided as an env variable. "
             "e.g.  FIRST_SUPERUSER=admin@api.io"
         )
+
+    ## Init car brands
+    logger.info("Init car brands ... ")
+    for brand in brands:
+        car_brand_in = schemas.CarBrandCreate(**brand)
+        car_brand = crud.car_brand.create(db, obj_in=car_brand_in)
