@@ -3,25 +3,26 @@ from pydantic import BaseModel, HttpUrl
 from typing import Sequence
 
 
-class CarBrandBase(BaseModel):
+class CarBase(BaseModel):
     name: str
     logo_url: str
     desciption: str
     status: int
 
 
-class CarBrandCreate(CarBrandBase):
+class CarCreate(CarBase):
     name: str
     logo_url: str
     desciption: str
     status: int
+    car_brand_id: int
 
 
-class CarBrandUpdate(CarBrandBase):
+class CarUpdate(CarBase):
     id: int
 
 
-class CarBrandUpdateRestricted(BaseModel):
+class CarUpdateRestricted(BaseModel):
     id: int
     name: str
     logo_url: str
@@ -30,7 +31,7 @@ class CarBrandUpdateRestricted(BaseModel):
 
 
 # Properties shared by models stored in DB
-class CarBrandInDBBase(CarBrandBase):
+class CarInDBBase(CarBase):
     id: int
 
     class Config:
@@ -38,14 +39,14 @@ class CarBrandInDBBase(CarBrandBase):
 
 
 # Properties to return to client
-class CarBrand(CarBrandInDBBase):
+class Car(CarInDBBase):
     pass
 
 
 # Properties properties stored in DB
-class CarBrandInDB(CarBrandInDBBase):
+class CarInDB(CarInDBBase):
     pass
 
 
-class CarBrandSearchResults(BaseModel):
-    results: Sequence[CarBrand]
+class CarSearchResults(BaseModel):
+    results: Sequence[Car]

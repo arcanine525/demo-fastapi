@@ -38,7 +38,7 @@ def fetch_car_brand(
 @router.get("/search/", status_code=200, response_model=CarBrandSearchResults)
 def search_car_brands(
     *,
-    keyword: str = Query(None, min_length=3, example="Honda"),
+    keyword: str = Query('None', example="Honda"),
     skip: Optional[int] = 0,
     limit: Optional[int] = 10,
     db: Session = Depends(deps.get_db),
@@ -46,11 +46,7 @@ def search_car_brands(
     """
     Search for car brands based on name keyword
     """
-    if not keyword:
-        results = crud.car_brand.get_multi(db=db, skip=skip,limit=limit)
-    else:
-        results = crud.car_brand.get_multi(db=db, skip=skip, limit=limit, keyword=keyword)
-    # results = filter(lambda car_brand: keyword.lower() in car_brand.name.lower(), car_brands)
+    results = crud.car_brand.get_multi(db=db, skip=skip, limit=limit, keyword=keyword)
 
     return {"results": list(results)}
 
